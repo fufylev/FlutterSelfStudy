@@ -1,0 +1,27 @@
+%%{init: {"flowchart": {"wrappingWidth": 260}}}%%
+flowchart LR
+    subgraph V1["По слоям"]
+        direction TB
+        A1["app"] --> P1["presentation<br/>(все фичи)"] --> D1["domain<br/>(все фичи)"]
+        DA1["data<br/>(все фичи)"] --> D1
+    end
+    subgraph V2["По фичам"]
+        direction TB
+        A2["app"] --> F2["accounts<br/>data / domain / presentation"]
+        A2 --> T2["transfer<br/>data / domain / presentation"]
+        F2 --> C2["core"]
+        T2 --> C2
+    end
+    subgraph V3["api / impl"]
+        direction TB
+        A3["app"] --> I3["accounts_impl"]
+        A3 --> TI3["transfer_impl"]
+        I3 --> API3["accounts_api<br/>интерфейсы, модели, маршруты"]
+        TI3 --> API3
+    end
+    subgraph V4["Микроприложения"]
+        direction TB
+        SH4["оболочка: запускает модули,<br/>общий роутер и DI"] --> M4["модуль «Счета»<br/>своя точка входа,<br/>маршруты, DI, жизненный цикл"]
+        SH4 --> N4["модуль «Перевод»<br/>своя точка входа,<br/>маршруты, DI, жизненный цикл"]
+    end
+    V1 ~~~ V2 ~~~ V3 ~~~ V4

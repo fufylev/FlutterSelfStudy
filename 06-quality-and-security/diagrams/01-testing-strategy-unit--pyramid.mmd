@@ -1,0 +1,26 @@
+%%{init: {"flowchart": {"wrappingWidth": 420}}}%%
+flowchart LR
+  subgraph P["Пирамида: основа — unit-тесты"]
+    direction TB
+    P3["<b>Integration / E2E</b><br/>единицы · минуты · реальное устройство"]
+    P2["<b>Widget-тесты</b><br/>десятки–сотни · секунды"]
+    P1["<b>Unit-тесты</b><br/>сотни–тысячи · миллисекунды · без Flutter-движка"]
+    P3 --- P2 --- P1
+  end
+  subgraph T["Трофей: упор на тесты связок"]
+    direction TB
+    T4["<b>E2E</b><br/>немного"]
+    T3["<b>Интеграционные</b> (во Flutter — widget-тесты экрана<br/>с настоящим Bloc и фейковым репозиторием)<br/>больше всего"]
+    T2["<b>Unit-тесты</b><br/>чистая логика: деньги, валидация"]
+    T1["<b>Статический анализ</b><br/>типы, линтер — бесплатно на каждом коммите"]
+    T4 --- T3 --- T2 --- T1
+  end
+  P ~~~ T
+  classDef top fill:#FFEBE6,stroke:#DE350B,color:#172B4D
+  classDef mid fill:#FFFAE6,stroke:#FF8B00,color:#172B4D
+  classDef base fill:#E3FCEF,stroke:#36B37E,color:#172B4D
+  classDef stat fill:#EAE6FF,stroke:#6554C0,color:#172B4D
+  class P3,T4 top
+  class P2,T3 mid
+  class P1,T2 base
+  class T1 stat

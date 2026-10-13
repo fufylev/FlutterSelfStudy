@@ -1,0 +1,8 @@
+flowchart LR
+    V["vsync<br/>сигнал экрана"] --> T["transientCallbacks<br/>Ticker, анимации"]
+    T --> MT["midFrameMicrotasks"]
+    MT --> D["<b>persistentCallbacks — drawFrame</b><br/>1. Build — BuildOwner.buildScope<br/>2. Layout — flushLayout<br/>3. Compositing bits<br/>4. Paint — flushPaint<br/>5. Composite — Scene → движок<br/>6. Semantics<br/>7. finalizeTree"]
+    D --> PF["postFrameCallbacks"]
+    D -.->|"Scene"| RA["Raster-поток<br/>Impeller / Skia → GPU"]
+    style D fill:#DEEBFF,stroke:#0052CC
+    style RA fill:#EAE6FF,stroke:#5243AA

@@ -1,0 +1,13 @@
+%%{init: {"flowchart": {"wrappingWidth": 330}}}%%
+flowchart TB
+  A["<b>Действие теста</b><br/>tap, enterText, bloc.add, setState"] --> B["Дерево помечено «грязным»,<br/>экран ещё старый"]
+  B --> C{"Что вызвать?"}
+  C -- "pump()" --> D["<b>Один кадр</b><br/>микрозадачи → build → layout → paint.<br/>Время не идёт"]
+  C -- "pump(duration)" --> E["<b>Сдвиг виртуального времени</b> + один кадр.<br/>Срабатывают таймеры за этот период,<br/>анимация встаёт в нужную точку"]
+  C -- "pumpAndSettle()" --> F["<b>Кадры каждые 100 мс,</b><br/>пока есть запланированные кадры.<br/>Для конечных анимаций: переход, snackbar"]
+  F --> G["Бесконечная анимация<br/>(индикатор загрузки)"]
+  G --> H["<b>pumpAndSettle timed out</b><br/>через 10 минут виртуального времени"]
+  classDef ok fill:#E3FCEF,stroke:#36B37E,color:#172B4D
+  classDef warn fill:#FFEBE6,stroke:#DE350B,color:#172B4D
+  class D,E,F ok
+  class H warn

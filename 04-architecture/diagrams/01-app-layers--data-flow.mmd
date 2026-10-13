@@ -1,0 +1,21 @@
+sequenceDiagram
+    actor U as Пользователь
+    participant W as Экран (presentation)
+    participant C as AccountsCubit (presentation)
+    participant UC as GetAccountsUseCase (domain)
+    participant R as AccountsRepositoryImpl (data)
+    participant DS as RemoteDataSource (data)
+    participant API as Сервер
+    U->>W: нажимает «Обновить»
+    W->>C: load()
+    C-->>W: AccountsLoading
+    C->>UC: call()
+    UC->>R: getAccounts()
+    R->>DS: fetchAccounts()
+    DS->>API: GET /v1/accounts
+    API-->>DS: JSON
+    DS-->>R: List<AccountDto>
+    R-->>UC: List<Account> (toEntity)
+    UC-->>C: Success(отсортированные счета)
+    C-->>W: AccountsLoaded(List<AccountViewModel>)
+    W-->>U: список счетов

@@ -1,0 +1,17 @@
+sequenceDiagram
+    autonumber
+    participant S as Источник: SMS, push, Safari, другое приложение
+    participant I as iOS
+    participant A as AppDelegate (FlutterAppDelegate)
+    participant F as Flutter: Navigator
+    S->>I: открыть bank://ioscheck/transfer?to=Ivan
+    I->>S: своя схема из другого приложения → «Открыть в …?»
+    alt Приложение не запущено
+        I->>A: запуск + application(_:open:options:)
+        A->>F: initialRoute «/»
+        A->>F: pushRoute «/transfer?to=Ivan»
+    else Приложение открыто
+        I->>A: application(_:open:options:)
+        A->>F: pushRoute «/transfer?to=Ivan»
+    end
+    Note over F: На Android холодный старт отдаёт всю ссылку в initialRoute,<br/>на iOS — «/» и затем путь. Разбирать через Uri на обеих платформах

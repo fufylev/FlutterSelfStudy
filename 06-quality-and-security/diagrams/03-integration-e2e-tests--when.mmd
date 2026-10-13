@@ -1,0 +1,12 @@
+%%{init: {"flowchart": {"wrappingWidth": 330}}}%%
+flowchart TB
+  MR["<b>Каждый MR в GitLab</b> (минуты)<br/>анализ, unit, widget, golden<br/>+ 1–3 smoke-сценария integration_test<br/>на одном Android-эмуляторе"]
+  NIGHT["<b>Ночью</b> (десятки минут)<br/>весь набор integration_test и Patrol<br/>на ферме: несколько версий Android,<br/>симуляторы iOS, шардирование"]
+  REL["<b>Перед релизом</b> (часы)<br/>регресс QA на Appium<br/>+ ручная проверка на реальных устройствах<br/>Android и iOS"]
+  MR --> NIGHT --> REL
+  classDef a fill:#E3FCEF,stroke:#36B37E,color:#172B4D
+  classDef b fill:#DEEBFF,stroke:#0052CC,color:#172B4D
+  classDef c fill:#FFFAE6,stroke:#FF8B00,color:#172B4D
+  class MR a
+  class NIGHT b
+  class REL c

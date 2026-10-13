@@ -1,0 +1,11 @@
+%% --- MERGE ---
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    branch feature
+    checkout feature
+    commit id: "D"
+    commit id: "E"
+    checkout main
+    commit id: "C"
+    merge feature id: "M"

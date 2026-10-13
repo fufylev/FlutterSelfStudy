@@ -1,0 +1,13 @@
+flowchart TB
+    C["createState"] --> I["initState<br/>один раз: контроллеры, подписки"]
+    I --> D["didChangeDependencies<br/>сразу после initState"]
+    D --> B["build"]
+    B --> LIVE(("State в дереве"))
+    LIVE -->|"setState"| B
+    LIVE -->|"родитель перестроился"| U["didUpdateWidget(old)"] --> B
+    LIVE -->|"изменилось InheritedWidget"| D2["didChangeDependencies"] --> B
+    LIVE -->|"убрали из дерева"| DE["deactivate"]
+    DE -->|"GlobalKey: вернули<br/>в другом месте в том же кадре"| A["activate"] --> LIVE
+    DE -->|"не вернули"| DI["dispose<br/>освободить ресурсы"]
+    style I fill:#DEEBFF,stroke:#0052CC
+    style DI fill:#FFEBE6,stroke:#DE350B

@@ -1,0 +1,11 @@
+%%{init: {"flowchart": {"wrappingWidth": 340}}}%%
+flowchart LR
+    UI["Экран<br/>TextField, кнопка «Перевести»"] -->|"add(TransferSubmitted)"| T["Трансформер<br/>droppable / restartable / …"]
+    T --> H["Обработчик on&lt;TransferSubmitted&gt;"]
+    H -->|"вызов"| UC["TransferBetweenAccountsUseCase<br/>(domain)"]
+    UC -->|"Result"| H
+    H -->|"emit(State)"| ST["Stream&lt;TransferState&gt;<br/>одинаковые состояния отсеиваются"]
+    ST -->|"BlocBuilder / BlocSelector"| UI
+    ST -->|"BlocListener: snackbar, навигация"| UI
+    H -.->|"onTransition"| OBS["BlocObserver<br/>логи, аналитика"]
+    style UC fill:#E3FCEF,stroke:#36B37E

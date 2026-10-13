@@ -1,0 +1,12 @@
+# Личные заметки — только локально
+_private/
+
+# Сборка для Confluence (пересобирается tools/md2confluence.py)
+_build/
+
+# Зависимости рендера диаграмм (ставятся npm install в tools/)
+tools/node_modules/
+
+# Системное
+.DS_Store
+__pycache__/

@@ -1,0 +1,15 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart TB
+  Q0(["Зависимость медленная, недетерминированная или с побочным эффектом?<br/>(сеть, БД, время, платёж)"])
+  Q0 -- "нет: чистая логика,<br/>Entity, калькулятор" --> R0["<b>Настоящий объект</b><br/>не подменять"]
+  Q0 -- да --> Q1{"Что проверяем?"}
+  Q1 -- "результат или состояние<br/>(что вернул, что сохранил)" --> Q2{"Нужно поведение<br/>«как настоящее»?"}
+  Q2 -- "да: сохранить → прочитать,<br/>фильтрация, счётчики" --> R1["<b>Fake</b><br/>рабочая реализация в памяти"]
+  Q2 -- "нет: просто вернуть<br/>заготовленный ответ или ошибку" --> R2["<b>Stub</b><br/>mocktail: when → thenAnswer / thenThrow"]
+  Q1 -- "сам вызов: был ли, сколько раз,<br/>с какими аргументами" --> R3["<b>Mock</b><br/>mocktail: verify, captureAny"]
+  classDef real fill:#E3FCEF,stroke:#36B37E,color:#172B4D
+  classDef fake fill:#DEEBFF,stroke:#0052CC,color:#172B4D
+  classDef mock fill:#FFFAE6,stroke:#FF8B00,color:#172B4D
+  class R0 real
+  class R1 fake
+  class R2,R3 mock

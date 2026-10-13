@@ -1,0 +1,21 @@
+sequenceDiagram
+    autonumber
+    participant D as Dart
+    participant K as Swift: SecurityChannel
+    participant KC as Keychain (ключ записи — в Secure Enclave)
+    participant FID as Face ID
+    D->>K: unlockWithBiometric()
+    K->>KC: SecItemCopyMatching (фоновый поток)
+    KC->>FID: запись с .biometryCurrentSet → запросить лицо
+    alt Лицо подошло
+        FID-->>KC: Secure Enclave выдаёт ключ расшифровки записи
+        KC-->>K: errSecSuccess + токен
+        K-->>D: токен
+    else Отмена
+        KC-->>K: errSecUserCanceled
+        K-->>D: PlatformException(CANCELED)
+    else Набор лиц/отпечатков изменился
+        KC-->>K: запись недоступна навсегда
+        K-->>D: PlatformException → вход по паролю, включить заново
+    end
+    Note over KC,FID: На симуляторе проверка не выполняется: запись отдаётся без Face ID

@@ -1,0 +1,11 @@
+%%{init: {"flowchart": {"wrappingWidth": 300}}}%%
+flowchart TD
+    H["hook/build.dart<br/>CBuilder.library(name, assetName, sources)"]
+    H -->|"flutter build apk"| A["Android: arm64-v8a, armeabi-v7a, x86_64<br/>APK → lib/&lt;abi&gt;/libcard_native.so"]
+    H -->|"flutter build ios"| I["iOS: устройство и симулятор (arm64 + x86_64)<br/>Runner.app/Frameworks/card_native.framework"]
+    H -->|"dart test, dart run"| M["Mac / Linux / Windows<br/>.dart_tool/lib/libcard_native.dylib"]
+    N["@Native функция в<br/>package:card_native/card_native_bindings_generated.dart"] -->|"assetId совпадает с assetName"| L["Первый вызов: загрузка библиотеки и поиск символа<br/>(ошибка загрузки — тоже здесь, а не при старте)"]
+    A --> L
+    I --> L
+    M --> L
+    style L fill:#FFF0B3,stroke:#FF991F

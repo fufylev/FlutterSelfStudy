@@ -1,0 +1,17 @@
+%%{init: {"flowchart": {"wrappingWidth": 260}}}%%
+flowchart LR
+    subgraph A["Android (Activity)"]
+        direction TB
+        A1["onResume<br/>+ окно в фокусе"] --> A2["onPause<br/>или потеря фокуса"] --> A3["onStop"] --> A4["onDestroy"]
+    end
+    subgraph F["Flutter (AppLifecycleState)"]
+        direction TB
+        F1["resumed"] --> F2["inactive"] --> F3["hidden<br/>(вставляет Flutter)"] --> F4["paused"] --> F5["detached"]
+    end
+    subgraph I["iOS (UIApplication / UIScene)"]
+        direction TB
+        I1["Active"] --> I2["Inactive<br/>звонок, переключатель"] --> I3["Background"] --> I4["Suspended<br/>может быть выгружено без колбэка"]
+    end
+    A ~~~ F ~~~ I
+    style F fill:#E3FCEF,stroke:#36B37E
+    style F3 fill:#F4F5F7,stroke:#7A869A,stroke-dasharray: 5 5

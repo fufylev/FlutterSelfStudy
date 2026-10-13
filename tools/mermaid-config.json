@@ -1,0 +1,16 @@
+{
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Arial, Helvetica, sans-serif",
+    "fontSize": "16px",
+    "primaryColor": "#DEEBFF",
+    "primaryBorderColor": "#0052CC",
+    "primaryTextColor": "#172B4D",
+    "lineColor": "#42526E",
+    "edgeLabelBackground": "#FFFFFF",
+    "git0": "#0052CC", "git1": "#36B37E", "git2": "#FF8B00", "git3": "#6554C0",
+    "gitBranchLabel0": "#FFFFFF", "gitBranchLabel1": "#FFFFFF", "gitBranchLabel2": "#FFFFFF", "gitBranchLabel3": "#FFFFFF",
+    "commitLabelColor": "#172B4D", "commitLabelBackground": "#FFFFFF", "commitLabelFontSize": "14px"
+  },
+  "gitGraph": { "mainBranchName": "main", "rotateCommitLabel": false }
+}

@@ -1,0 +1,17 @@
+flowchart LR
+    subgraph WT["Дерево виджетов"]
+        direction TB
+        W1["Center"] --> W2["Text<br/>'Баланс: 1 500 ₽'"] --> W3["RichText"]
+    end
+    subgraph ET["Дерево элементов"]
+        direction TB
+        E1["SingleChildRenderObjectElement"] --> E2["StatelessElement"] --> E3["MultiChildRenderObjectElement"]
+    end
+    subgraph RT["Дерево RenderObject"]
+        direction TB
+        R1["RenderPositionedBox"] --> R2["нет своего RenderObject:<br/>Text только собирает RichText"] --> R3["RenderParagraph"]
+    end
+    WT ~~~ ET ~~~ RT
+    style W2 fill:#F4F5F7,stroke:#7A869A
+    style E2 fill:#F4F5F7,stroke:#7A869A
+    style R2 fill:#FFFFFF,stroke:#7A869A,stroke-dasharray: 5 5

@@ -1,0 +1,12 @@
+%%{init: {"flowchart": {"wrappingWidth": 520}}}%%
+flowchart TB
+    A["<b>Приложение</b> — весь процесс<br/>HttpClient (standard, fileUpload), БД, логгер, конфигурация<br/>registerLazySingleton в глобальном контейнере"]
+    S["<b>Сессия пользователя</b> — от входа до выхода<br/>AccountsRepository с кешем счетов, данные клиента<br/>pushNewScope при входе → popScope при выходе"]
+    M["<b>Модуль «Перевод»</b> — пока открыт хотя бы один его экран<br/>зависимости экранов модуля, аналитика модуля<br/>свой контейнер модуля, очищается после последнего экрана"]
+    E["<b>Экран «Перевод»</b> — пока экран в дереве<br/>TransferBloc: BlocProvider(create) создаёт и закрывает"]
+    C["<b>Вызов</b> — один get()<br/>TransferBetweenAccountsUseCase: registerFactory"]
+    A -->|"живёт дольше, чем"| S -->|"живёт дольше, чем"| M -->|"живёт дольше, чем"| E -->|"живёт дольше, чем"| C
+    style A fill:#DEEBFF,stroke:#0052CC
+    style S fill:#EAE6FF,stroke:#5243AA
+    style M fill:#E3FCEF,stroke:#36B37E
+    style E fill:#FFF0B3,stroke:#FF991F

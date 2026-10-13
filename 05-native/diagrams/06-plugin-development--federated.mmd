@@ -1,0 +1,12 @@
+%%{init: {"flowchart": {"wrappingWidth": 300}}}%%
+flowchart TD
+    APP["Приложение банка<br/>pubspec: device_security"] --> F["device_security<br/>API для приложения<br/>default_package: android / ios"]
+    F --> PI["device_security_platform_interface<br/>abstract class DeviceSecurityPlatform extends PlatformInterface<br/>static instance + verifyToken"]
+    F --> A["device_security_android<br/>implements: device_security<br/>Kotlin + DeviceSecurityAndroid"]
+    F --> I["device_security_ios<br/>implements: device_security<br/>Swift (SwiftPM + podspec) + DeviceSecurityIos"]
+    A --> PI
+    I --> PI
+    W["device_security_web<br/>(другая команда, не одобрен)"] -.->|"приложение добавляет само"| PI
+    R["Запуск приложения: registerWith()<br/>DeviceSecurityPlatform.instance = DeviceSecurityAndroid()"] -.-> PI
+    style PI fill:#DEEBFF,stroke:#0052CC
+    style W fill:#F4F5F7,stroke:#97A0AF,stroke-dasharray: 4 3

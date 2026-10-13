@@ -1,0 +1,13 @@
+flowchart LR
+    WD["📁 Working directory<br/>(рабочая папка)"]
+    IDX["📝 Index / Staging<br/>(черновик коммита)"]
+    REPO["🗄️ Local repository<br/>(история коммитов)"]
+    REMOTE["☁️ Remote<br/>(origin)"]
+
+    WD -- "git add" --> IDX
+    IDX -- "git commit" --> REPO
+    REPO -- "git push" --> REMOTE
+    REMOTE -- "git fetch" --> REPO
+    REMOTE -. "git pull = fetch + merge/rebase" .-> WD
+    IDX -- "git restore --staged" --> WD
+    REPO -- "git switch / git restore" --> WD

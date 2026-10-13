@@ -1,0 +1,22 @@
+%%{init: {"flowchart": {"wrappingWidth": 320}}}%%
+flowchart LR
+    subgraph DART["Dart (UI-поток Flutter)"]
+        A["DeviceSecurity.isDeviceSecure()"]
+        MC["MethodChannel<br/>ru.bank/device_security"]
+        EC["EventChannel<br/>ru.bank/device_security/screenshots"]
+        A --> MC
+    end
+    subgraph ENGINE["Движок Flutter (C++)"]
+        BM["BinaryMessenger<br/>имя канала + байты ByteData"]
+    end
+    subgraph NATIVE["Натив (главный поток платформы)"]
+        H["MethodCallHandler<br/>Kotlin: onMethodCall · Swift: handle"]
+        SH["StreamHandler<br/>onListen / onCancel"]
+        OS["API платформы<br/>KeyguardManager · LAContext"]
+        H --> OS
+    end
+    MC <-->|"кодек: объект ⇄ байты"| BM
+    EC <-->|"кодек"| BM
+    BM <--> H
+    BM <--> SH
+    style BM fill:#DEEBFF,stroke:#0052CC

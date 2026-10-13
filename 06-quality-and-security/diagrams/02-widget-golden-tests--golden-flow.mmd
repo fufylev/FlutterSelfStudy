@@ -1,0 +1,16 @@
+%%{init: {"flowchart": {"wrappingWidth": 330}}}%%
+flowchart TB
+  A["Разработчик меняет вёрстку"] --> B["flutter test --update-goldens<br/><b>в том же окружении, что CI</b><br/>(Docker-образ Linux-агента Jenkins)"]
+  B --> C["Новые PNG — в коммит вместе с кодом"]
+  C --> D["MR в GitLab: ревьюер смотрит<br/>изменённые PNG рядом с кодом"]
+  D --> E["Jenkins: flutter test<br/><b>без</b> --update-goldens"]
+  E -- совпало --> F["✅ MR можно вливать"]
+  E -- расхождение --> G["❌ Падение: test/failures/<br/>masterImage · testImage · isolatedDiff · maskedDiff<br/>→ артефакт сборки в Nexus"]
+  G --> H{"Изменение<br/>ожидаемое?"}
+  H -- да --> B
+  H -- нет --> I["Исправить вёрстку"]
+  I --> E
+  classDef ok fill:#E3FCEF,stroke:#36B37E,color:#172B4D
+  classDef bad fill:#FFEBE6,stroke:#DE350B,color:#172B4D
+  class F ok
+  class G bad

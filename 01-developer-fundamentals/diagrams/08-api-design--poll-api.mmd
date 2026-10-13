@@ -1,0 +1,15 @@
+flowchart LR
+    ROOT["/v1/polls"] --> L["GET — список<br/>(status, cursor, limit)"]
+    ROOT --> C["POST — создать<br/>→ 201 + Location"]
+    ROOT --> P["/v1/polls/{pollId}"]
+    P --> P1["GET — детали + myVote"]
+    P --> P2["PATCH — редактировать<br/>If-Match → 412 при конфликте"]
+    P --> P3["DELETE — удалить / архивировать<br/>→ 204"]
+    P --> V["/v1/polls/{pollId}/vote<br/>«мой голос» — один на пользователя"]
+    V --> V1["PUT — проголосовать или изменить<br/>идемпотентно, 409 если закрыто"]
+    V --> V2["GET — мой голос / 404"]
+    V --> V3["DELETE — отозвать → 204"]
+    P --> R["/v1/polls/{pollId}/results"]
+    R --> R1["GET — результаты"]
+    style V fill:#E3FCEF,stroke:#36B37E
+    style V1 fill:#E3FCEF,stroke:#36B37E

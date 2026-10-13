@@ -1,0 +1,36 @@
+%%{init: {"flowchart": {"wrappingWidth": 300}}}%%
+flowchart TB
+    subgraph P["Presentation"]
+        BLOC["TasksBloc<br/>emit.forEach(watchTasks)"]
+    end
+    SCH["TasksSyncScheduler (точка входа модуля)<br/>старт модуля, появилась сеть"]
+    subgraph D["Domain — решения"]
+        ADD["AddTaskUseCase<br/>всегда локально → при сети sync"]
+        SYNC["SyncTasksUseCase<br/>забрать → конфликты → отправить"]
+        RULE["resolveConflict<br/>last write wins"]
+        IF["«interface» TasksRepository"]
+        SRV["«interface» NetworkStatus, IdGenerator, Clock"]
+    end
+    subgraph DA["Data — координация источников"]
+        IMPL["TasksRepositoryImpl"]
+        L1[("TasksLocalDataSource<br/>таблица задач")]
+        L2[("PendingChanges<br/>очередь изменений")]
+        L3[("SyncCursor<br/>курсор")]
+        RDS["TasksRemoteDataSource<br/>PUT /tasks/{id}, GET /changes"]
+    end
+    P ~~~ D ~~~ DA
+    BLOC --> ADD
+    BLOC -->|"watch"| IF
+    ADD --> IF
+    ADD --> SYNC
+    ADD --> SRV
+    SYNC --> IF
+    SYNC --> RULE
+    SCH --> SYNC
+    IF <-.-|"реализует"| IMPL
+    IMPL --> L1
+    IMPL --> L2
+    IMPL --> L3
+    IMPL --> RDS
+    style D fill:#E3FCEF,stroke:#36B37E
+    style DA fill:#DEEBFF,stroke:#0052CC

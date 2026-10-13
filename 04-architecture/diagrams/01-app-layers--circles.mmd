@@ -1,0 +1,21 @@
+%%{init: {"flowchart": {"wrappingWidth": 420}}}%%
+flowchart LR
+    subgraph M["Круги Мартина (изнутри наружу)"]
+        direction TB
+        C1["Entities<br/>бизнес-объекты и правила"]
+        C2["Use Cases<br/>сценарии приложения"]
+        C3["Interface Adapters<br/>перевод данных между кругами"]
+        C4["Frameworks & Drivers<br/>Flutter, сеть, БД"]
+        C4 -->|"зависит от"| C3 -->|"зависит от"| C2 -->|"зависит от"| C1
+    end
+    subgraph F["Три слоя Flutter-приложения"]
+        direction TB
+        P["<b>Presentation</b><br/>экраны, виджеты, BLoC/Cubit, view-модели"]
+        D["<b>Domain</b><br/>Entity, UseCase, интерфейсы репозиториев<br/>чистый Dart"]
+        DA["<b>Data</b><br/>API-клиент, DataSource, DTO,<br/>реализации репозиториев"]
+        P ~~~ D ~~~ DA
+    end
+    M ~~~ F
+    style C1 fill:#E3FCEF,stroke:#36B37E
+    style C2 fill:#E3FCEF,stroke:#36B37E
+    style D fill:#E3FCEF,stroke:#36B37E

@@ -1,0 +1,14 @@
+flowchart LR
+    START["▶ Запуск: синхронный код main()"] --> MQ{"Очередь микрозадач<br/>пуста?"}
+    MQ -->|"нет"| MT["Выполнить ОДНУ микрозадачу<br/>(await-продолжения, scheduleMicrotask,<br/>then у готового Future)"]
+    MT --> MQ
+    MQ -->|"да"| EQ{"Есть событие<br/>в event-очереди?"}
+    EQ -->|"да"| EV["Выполнить ОДНО событие<br/>(Timer, Future(), сеть, нажатие,<br/>кадр Flutter)"]
+    EV --> MQ
+    EQ -->|"нет"| WAIT["Ждать новых событий"]
+    WAIT --> EQ
+    NOTE["Пока выполняется код, ни кадр,<br/>ни нажатие, ни таймер не могут его прервать"]
+    START ~~~ NOTE
+    style MT fill:#FFFAE6,stroke:#FF8B00
+    style EV fill:#DEEBFF,stroke:#0052CC
+    style NOTE fill:#FFEBE6,stroke:#DE350B

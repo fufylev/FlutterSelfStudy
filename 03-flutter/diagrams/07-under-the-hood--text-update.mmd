@@ -1,0 +1,9 @@
+flowchart LR
+    S["setState<br/>элемент → dirty"] --> B["build<br/>новые Center и Text"]
+    B --> C{"canUpdate?<br/>тип и ключ<br/>совпали"}
+    C -->|"да"| U["Элемент остаётся,<br/>получает новый виджет"]
+    U --> RO["updateRenderObject<br/>RenderParagraph.text = …"]
+    RO --> L["markNeedsLayout<br/>→ layout → paint"]
+    C -->|"нет"| N["Старый элемент и RenderObject<br/>удаляются, создаются новые"]
+    style U fill:#E3FCEF,stroke:#36B37E
+    style N fill:#FFEBE6,stroke:#DE350B

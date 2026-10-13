@@ -1,0 +1,17 @@
+sequenceDiagram
+    autonumber
+    participant S as Источник: SMS, push, сайт, другое приложение
+    participant A as Android
+    participant M as MainActivity (FlutterFragmentActivity)
+    participant F as Flutter: Navigator
+    S->>A: Intent VIEW bank://andcheck/transfer?to=Ivan
+    A->>A: ищет intent-filter со схемой bank и host andcheck
+    alt Приложение не запущено
+        A->>M: onCreate(intent)
+        M->>F: initialRoute = вся ссылка «bank://andcheck/transfer?to=Ivan»
+    else Приложение уже открыто (singleTop)
+        A->>M: onNewIntent(intent)
+        M->>F: pushRoute «/transfer?to=Ivan»
+    end
+    F->>F: onGenerateRoute: Uri.parse(name).path == '/transfer'
+    Note over F: Разбирайте через Uri: в одном случае приходит вся ссылка, в другом — только путь

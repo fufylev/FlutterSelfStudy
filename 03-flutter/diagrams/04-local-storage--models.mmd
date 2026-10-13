@@ -1,0 +1,17 @@
+flowchart LR
+    subgraph W["Запись: из сети в базу"]
+        direction TB
+        API["API (JSON)"] -->|"fromJson"| DTO["OperationDto<br/>amount: '-1500.00'<br/>status: 'DONE'"]
+        DTO -->|"toDomain()<br/>разбор в одном месте"| DOM["Operation (домен)<br/>kopecks: -150000<br/>status: done, дата в UTC"]
+        DOM -->|"toCompanion()"| COMP["OperationsCompanion<br/>«что записать»"]
+        COMP -->|"OperationsDao.insert"| DB1[("SQLite<br/>operations")]
+    end
+    subgraph R["Чтение: из базы в UI"]
+        direction TB
+        DB2[("SQLite<br/>operations")] -->|"OperationsDao.watch"| ROW["OperationRow<br/>строка из базы"]
+        ROW -->|"toDomain()"| DOM2["Operation (домен)"]
+        DOM2 --> UI["UI и бизнес-логика<br/>видят только домен"]
+    end
+    W ~~~ R
+    style DOM fill:#E3FCEF,stroke:#36B37E
+    style DOM2 fill:#E3FCEF,stroke:#36B37E

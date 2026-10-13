@@ -1,0 +1,19 @@
+flowchart LR
+    subgraph RT["Дерево отрисовки"]
+        direction TB
+        RV["RenderView"] --> COL["RenderFlex (Column)"]
+        COL --> P1["RenderParagraph<br/>'Счёт'"]
+        COL --> OP["RenderOpacity"] --> P2["RenderParagraph<br/>'Скрытая сумма'"]
+        COL --> RB["RenderRepaintBoundary"] --> P3["RenderParagraph<br/>'Таймер'"]
+    end
+    subgraph LT["Дерево слоёв"]
+        direction TB
+        TL["TransformLayer<br/>масштаб экрана"] --> PL1["PictureLayer<br/>'Счёт'"]
+        TL --> OL["OpacityLayer<br/>alpha 128"] --> PL2["PictureLayer<br/>'Скрытая сумма'"]
+        TL --> OFL["OffsetLayer<br/>своя граница перерисовки"] --> PL3["PictureLayer<br/>'Таймер'"]
+    end
+    RT ~~~ LT
+    style RB fill:#E3FCEF,stroke:#36B37E
+    style OFL fill:#E3FCEF,stroke:#36B37E
+    style OP fill:#FFF0B3,stroke:#FF991F
+    style OL fill:#FFF0B3,stroke:#FF991F

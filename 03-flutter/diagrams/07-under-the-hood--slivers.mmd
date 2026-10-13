@@ -1,0 +1,14 @@
+%%{init: {"flowchart": {"wrappingWidth": 400}}}%%
+flowchart TB
+    P["Родитель (box-протокол)"] -->|"BoxConstraints 400×800"| V["<b>Viewport</b> — снаружи RenderBox, внутри раскладывает слайверы по очереди"]
+    V -->|"SliverConstraints: осталось 800"| S1["SliverAppBar"]
+    V -->|"SliverConstraints: осталось 640"| S2["SliverToBoxAdapter<br/>внутри box-виджет: SizedBox 100"]
+    V -->|"SliverConstraints: осталось 540"| S3["SliverList<br/>строит только видимые строки"]
+    S1 -.->|"SliverGeometry: занял 160"| R["Viewport вычитает занятое<br/>и передаёт остаток следующему"]
+    S2 -.->|"SliverGeometry: занял 100"| R
+    S3 -.->|"SliverGeometry: рисует 540, длина 2500"| R
+    style V fill:#DEEBFF,stroke:#0052CC
+    style R fill:#DEEBFF,stroke:#0052CC
+    style S1 fill:#E3FCEF,stroke:#36B37E
+    style S2 fill:#E3FCEF,stroke:#36B37E
+    style S3 fill:#E3FCEF,stroke:#36B37E

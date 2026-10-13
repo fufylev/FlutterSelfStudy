@@ -1,0 +1,16 @@
+%%{init: {"flowchart": {"wrappingWidth": 330}}}%%
+flowchart TD
+    D["Dart: Launcher.openUrl(url)"] -->|MethodChannel| S["Swift: UIApplication.shared.open(url)"]
+    S --> T{"Что за ссылка?"}
+    T -->|"https"| U{"Есть приложение с Universal Link<br/>на этот домен?"}
+    U -->|Да| A["Открывается приложение, нужный экран"]
+    U -->|Нет| W["Открывается Safari"]
+    T -->|"Схема: maps:, sms:, otherbank:"| H{"Есть приложение со схемой?"}
+    H -->|Да| A
+    H -->|Нет| F["completion(false) → в Dart запасной вариант"]
+    T -->|"openSettingsURLString"| P["«Настройки» → страница нашего приложения"]
+    T -->|"App-prefs:WIFI и другие закрытые"| F
+    C["canOpenURL(схема)"] -.->|"схема не в LSApplicationQueriesSchemes"| N["всегда false"]
+    style F fill:#FFEBE6,stroke:#DE350B
+    style N fill:#FFEBE6,stroke:#DE350B
+    style A fill:#E3FCEF,stroke:#36B37E

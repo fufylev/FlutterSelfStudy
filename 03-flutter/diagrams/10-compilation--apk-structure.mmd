@@ -1,0 +1,16 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart LR
+    APK["📦 app-release.apk<br/>ZIP-архив"]
+    APK --> M["AndroidManifest.xml<br/>бинарный XML"]
+    APK --> DEX["classes.dex<br/>Kotlin/Java, байткод Dalvik"]
+    APK --> R["resources.arsc + res/<br/>Android-ресурсы"]
+    APK --> LIB["lib/arm64-v8a · armeabi-v7a · x86_64"]
+    LIB --> F["libflutter.so — движок"]
+    LIB --> A["libapp.so — ваш Dart-код (AOT)"]
+    LIB --> P["lib*.so — нативные библиотеки пакетов"]
+    APK --> AS["assets/"]
+    AS --> FA["flutter_assets/<br/>ресурсы, шрифты, шейдеры, лицензии<br/>⚠️ в debug: kernel_blob.bin и снимки VM"]
+    AS --> BP["dexopt/baseline.prof<br/>профиль для ART"]
+    APK --> SIG["APK Signing Block<br/>подпись v2/v3"]
+    style A fill:#E3FCEF,stroke:#36B37E
+    style F fill:#DEEBFF,stroke:#0052CC

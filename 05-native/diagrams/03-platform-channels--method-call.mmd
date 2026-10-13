@@ -1,0 +1,17 @@
+sequenceDiagram
+    autonumber
+    participant D as Dart: DeviceSecurity
+    participant C as MethodChannel + кодек
+    participant E as Движок: BinaryMessenger
+    participant K as Натив: onMethodCall / handle
+    participant S as ОС: KeyguardManager / LAContext
+    D->>C: invokeMethod('isDeviceSecure')
+    C->>E: send('ru.bank/device_security', байты вызова)
+    Note over D: await — UI не блокируется
+    E->>K: обработчик канала на главном потоке
+    K->>S: isDeviceSecure / canEvaluatePolicy
+    S-->>K: true
+    K->>E: result.success(true) — ровно один раз
+    E-->>C: байты ответа (конверт «успех»)
+    C-->>D: Future завершается значением true
+    Note over C,D: error → PlatformException<br/>notImplemented или нет обработчика → MissingPluginException

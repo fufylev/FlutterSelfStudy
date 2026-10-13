@@ -1,0 +1,11 @@
+%%{init: {"flowchart": {"wrappingWidth": 560}}}%%
+flowchart TB
+    FW["<b>Framework — Dart</b><br/>Material · Cupertino<br/>Widgets<br/>Rendering<br/>Animation · Painting · Gestures · Foundation"]
+    UI["<b>dart:ui</b> — граница фреймворка и движка<br/>Canvas · Picture · SceneBuilder · Paragraph · PlatformDispatcher"]
+    EN["<b>Engine — C++</b><br/>Impeller / Skia · раскладка текста · Dart VM · каналы платформы"]
+    EM["<b>Embedder — Kotlin/Java · Swift/Objective-C · C++</b><br/>окно и поверхность для рисования · касания · жизненный цикл · потоки"]
+    FW --> UI --> EN --> EM
+    style FW fill:#DEEBFF,stroke:#0052CC
+    style UI fill:#FFF0B3,stroke:#FF991F
+    style EN fill:#EAE6FF,stroke:#5243AA
+    style EM fill:#E3FCEF,stroke:#36B37E

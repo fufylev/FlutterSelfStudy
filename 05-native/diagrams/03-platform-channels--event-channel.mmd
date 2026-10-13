@@ -1,0 +1,18 @@
+sequenceDiagram
+    autonumber
+    participant D as Dart: screenshots.listen
+    participant E as EventChannel + движок
+    participant N as Натив: StreamHandler
+    participant S as ОС
+    D->>E: первая подписка → служебный вызов listen
+    E->>N: onListen(arguments, eventSink)
+    N->>S: подписаться на скриншоты
+    loop пока есть подписчики
+        S-->>N: пользователь сделал скриншот
+        N-->>E: eventSink.success(null)
+        E-->>D: событие в Stream
+    end
+    D->>E: отмена последней подписки → служебный вызов cancel
+    E->>N: onCancel(arguments)
+    N->>S: отписаться — иначе утечка
+    Note over N,D: eventSink.error → ошибка в Stream<br/>endOfStream → Stream завершается (onDone)

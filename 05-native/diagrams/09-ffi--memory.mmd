@@ -1,0 +1,9 @@
+%%{init: {"flowchart": {"wrappingWidth": 320}}}%%
+flowchart TD
+    Q{"Кто выделил память?"}
+    Q -->|"Dart: calloc / Arena"| D["Освобождает Dart: calloc.free или конец using()<br/>Пример: строка для luhn_valid, массив Payment"]
+    Q -->|"Dart, а C пишет в неё"| B["Буфер вызывающего + размер параметром<br/>Пример: mask_pan(pan, out, 32)"]
+    Q -->|"C: malloc"| C["Освобождает C своей функцией<br/>receipt_free(ptr), не calloc.free"]
+    C --> F["Объект Dart владеет C-памятью:<br/>Finalizable + NativeFinalizer — страховка, если забыли dispose()"]
+    X["Ошибка в памяти: выход за границу, двойное free, чужой free"] --> Z["Падение ВСЕГО приложения<br/>(не исключение Dart, try/catch не поможет)"]
+    style Z fill:#FFEBE6,stroke:#DE350B

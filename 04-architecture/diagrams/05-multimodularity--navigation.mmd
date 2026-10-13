@@ -1,0 +1,12 @@
+%%{init: {"flowchart": {"wrappingWidth": 320}}}%%
+flowchart TB
+    APP["<b>app</b><br/>AppNavigatorImpl: знает все модули<br/>и открывает их экраны"]
+    TR["<b>transfer</b><br/>TransferResultActions<br/>navigator.openAccountDetails('40817')"]
+    ACC["<b>accounts</b><br/>экран деталей счёта<br/>(transfer о нём не знает)"]
+    CORE["<b>core</b><br/>«interface» AppNavigator<br/>openAccountDetails, openTransfer"]
+    APP -->|"зависит"| TR
+    APP -->|"зависит, открывает экран"| ACC
+    APP -.->|"реализует"| CORE
+    TR -->|"зависит только от core"| CORE
+    TR x--x ACC
+    style CORE fill:#DEEBFF,stroke:#0052CC

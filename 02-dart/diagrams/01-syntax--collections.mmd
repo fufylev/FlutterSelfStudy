@@ -1,0 +1,17 @@
+flowchart TB
+    IT["Iterable&lt;E&gt;<br/>where · map · fold · take · expand …"]
+    IT --> L["List&lt;E&gt;<br/>по умолчанию — растущий массив"]
+    IT --> S["Set&lt;E&gt;"]
+    IT --> Q["Queue&lt;E&gt;"]
+    IT --> LL["LinkedList&lt;E extends LinkedListEntry&gt;"]
+    IT --> OTHER["Runes, map.keys, map.values, map.entries"]
+    L --> L1["фиксированной длины<br/>List.filled(…, growable: false)"]
+    L --> L2["Uint8List и др.<br/>(dart:typed_data)"]
+    S --> S1["LinkedHashSet<br/>по умолчанию, порядок добавления"]
+    S --> S2["HashSet<br/>без порядка"]
+    S --> S3["SplayTreeSet<br/>отсортирован, O(log n)"]
+    Q --> Q1["ListQueue<br/>по умолчанию"]
+    Q --> Q2["DoubleLinkedQueue"]
+    NOT["❌ Не Iterable:<br/>Map (LinkedHashMap, HashMap, SplayTreeMap),<br/>String, Stream, Future"]
+    style IT fill:#0052CC,color:#FFFFFF,stroke:#0052CC
+    style NOT fill:#FFEBE6,stroke:#DE350B

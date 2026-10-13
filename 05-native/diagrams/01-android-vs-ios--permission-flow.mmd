@@ -1,0 +1,14 @@
+%%{init: {"flowchart": {"wrappingWidth": 300}}}%%
+flowchart TB
+    T["Пользователь нажал «Отсканировать карту»"] --> S{"status(camera)"}
+    S -->|"granted / limited"| OK["Открыть камеру"]
+    S -->|"restricted"| UN["Недоступно: предложить ввести номер вручную"]
+    S -->|"permanentlyDenied"| SET["Объяснить и предложить «Открыть настройки»"]
+    S -->|"denied"| EX["Своё объяснение: зачем камера,<br/>что будет без неё"]
+    EX -->|"Продолжить"| RQ["request(camera)<br/>системный диалог"]
+    EX -->|"Не сейчас"| MAN["Ввести номер вручную"]
+    RQ -->|"granted"| OK
+    RQ -->|"denied"| MAN
+    RQ -->|"permanentlyDenied"| SET
+    style OK fill:#E3FCEF,stroke:#36B37E
+    style SET fill:#FFF0B3,stroke:#FF991F

@@ -1,0 +1,15 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart LR
+    DART["Dart<br/>lib/ и пакеты"] -->|"frontend_server → gen_snapshot"| LIBAPP["lib/&lt;abi&gt;/libapp.so"]
+    KT["Kotlin / Java<br/>MainActivity, Android-часть плагинов"] -->|"kotlinc / javac → D8 или R8"| DEX["classes.dex"]
+    CPP["C / C++<br/>нативные части пакетов"] -->|"NDK clang, готовые .so<br/>или build hooks"| LIBSO["lib/&lt;abi&gt;/lib*.so"]
+    ENG["Движок Flutter<br/>из SDK"] -->|"копируется готовым"| LIBFL["lib/&lt;abi&gt;/libflutter.so"]
+    RES["res/, AndroidManifest"] -->|"AAPT2"| ARSC["resources.arsc, res/,<br/>бинарный манифест"]
+    AS["assets, шрифты, шейдеры<br/>из pubspec.yaml"] -->|"инструмент Flutter:<br/>урезает шрифты иконок"| FA["assets/flutter_assets/"]
+    LIBAPP --> APK["📦 APK — ZIP + подпись"]
+    DEX --> APK
+    LIBSO --> APK
+    LIBFL --> APK
+    ARSC --> APK
+    FA --> APK
+    style APK fill:#E3FCEF,stroke:#36B37E

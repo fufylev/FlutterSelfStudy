@@ -1,0 +1,27 @@
+sequenceDiagram
+    participant SCH as TasksSyncScheduler
+    participant UC as SyncTasksUseCase
+    participant R as TasksRepositoryImpl
+    participant DB as БД: задачи, очередь, курсор
+    participant S as Сервер
+    SCH->>UC: сеть появилась → call()
+    UC->>R: fetchRemoteChanges()
+    R->>DB: курсор
+    R->>S: GET /v1/tasks/changes?since=курсор
+    S-->>R: изменения + новый курсор
+    R-->>UC: List<Task>
+    loop каждая серверная задача
+        UC->>R: getLocalTask(id)
+        alt нет своей неотправленной правки или сервер новее
+            UC->>R: saveRemoteVersion(remote)
+            R->>DB: записать задачу, убрать из очереди
+        else своя правка новее
+            Note over UC: оставить в очереди
+        end
+    end
+    UC->>R: saveSyncCursor(курсор)
+    UC->>R: pushPendingChanges()
+    loop каждая задача из очереди
+        R->>S: PUT /v1/tasks/{id} (идемпотентно)
+        R->>DB: synced, убрать из очереди
+    end

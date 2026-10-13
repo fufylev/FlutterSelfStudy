@@ -1,0 +1,24 @@
+flowchart LR
+    subgraph vars["Переменные (хранят ссылки)"]
+        direction TB
+        TR["transactions"]
+        AL["alias"]
+        SN["snapshot"]
+        OC["october"]
+    end
+    subgraph heap["Объекты в памяти"]
+        direction TB
+        L1["Список A<br/>после изменений: 7 операций,<br/>отсортирован"]
+        L2["Список B (копия toList)<br/>8 операций, исходный порядок"]
+        W["Ленивый WhereIterable<br/>условие + ссылка на список A"]
+        E["Объекты Transaction<br/>t1 … t8 — общие для обоих списков"]
+    end
+    TR --> L1
+    AL --> L1
+    SN --> L2
+    OC --> W
+    W -->|"читает при обходе"| L1
+    L1 -.->|"ссылки на элементы"| E
+    L2 -.->|"ссылки на элементы"| E
+    style L1 fill:#DEEBFF,stroke:#0052CC
+    style L2 fill:#E3FCEF,stroke:#36B37E

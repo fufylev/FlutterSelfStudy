@@ -1,0 +1,14 @@
+%%{init: {"flowchart": {"wrappingWidth": 300}}}%%
+flowchart LR
+    subgraph CH["MethodChannel: ~50–700 мкс на вызов"]
+        direction TB
+        D1["Dart: invokeMethod"] --> C1["Кодек: объект → байты"]
+        C1 --> E1["Движок: передать на главный поток платформы"]
+        E1 --> K1["Kotlin / Swift: обработчик"]
+        K1 --> R1["Ответ: байты → движок → Dart, Future"]
+    end
+    subgraph FF["FFI: ~0,06–0,3 мкс на вызов"]
+        direction TB
+        D2["Dart: nativeAdd(a, b)"] --> N2["C-функция add<br/>в том же потоке, синхронно"]
+        N2 --> R2["Результат сразу, без Future"]
+    end

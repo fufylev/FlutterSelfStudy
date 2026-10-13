@@ -1,0 +1,21 @@
+%%{init: {"flowchart": {"wrappingWidth": 280}}}%%
+flowchart LR
+    subgraph A["Android"]
+        direction TB
+        A1["Свернули: onPause → onStop<br/>Flutter: inactive → hidden → paused"]
+        A2["Процесс жив и может работать<br/>(сервисы, WorkManager, push в фоне)<br/>ограничения: Doze, лимиты фона"]
+        A3["Нехватка памяти →<br/>Low Memory Killer выгружает процесс<br/>без onDestroy"]
+        A4["Пользователь вернулся:<br/>система пересоздаёт Activity<br/>и передаёт сохранённое состояние<br/>— ждёт тот же экран"]
+        A1 --> A2 --> A3 --> A4
+    end
+    subgraph I["iOS"]
+        direction TB
+        I1["Свернули: willResignActive → didEnterBackground<br/>Flutter: inactive → hidden → paused"]
+        I2["Несколько секунд на завершение<br/>(до ~30 с по запросу), затем<br/>приостановка: код не выполняется"]
+        I3["Нехватка памяти →<br/>система выгружает приложение<br/>без колбэка"]
+        I4["Пользователь вернулся:<br/>запуск с нуля,<br/>если восстановление не настроено"]
+        I1 --> I2 --> I3 --> I4
+    end
+    A ~~~ I
+    style A3 fill:#FFEBE6,stroke:#DE350B
+    style I3 fill:#FFEBE6,stroke:#DE350B

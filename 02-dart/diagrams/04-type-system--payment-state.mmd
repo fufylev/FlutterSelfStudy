@@ -1,0 +1,11 @@
+flowchart LR
+    PS["sealed PaymentState"] --> I["PaymentIdle"]
+    PS --> P["PaymentProcessing<br/>kopecks"]
+    PS --> S["PaymentSuccess<br/>receiptId"]
+    PS --> F["PaymentFailure<br/>reason"]
+    F -.->|"поле reason"| FR["sealed FailureReason"]
+    FR --> N["NotEnoughMoney<br/>missingKopecks"]
+    FR --> SE["ServerError<br/>statusCode"]
+    FR --> NN["NoNetwork"]
+    style PS fill:#0052CC,color:#FFFFFF,stroke:#0052CC
+    style FR fill:#0052CC,color:#FFFFFF,stroke:#0052CC

@@ -1,0 +1,5 @@
+%%{init: {"flowchart": {"wrappingWidth": 560}}}%%
+flowchart LR
+    A["<b>android/</b><br/>✏️ settings.gradle.kts — модули, AGP, Kotlin, подключение Flutter<br/>✏️ build.gradle.kts — общие настройки<br/>✏️ app/build.gradle.kts — id, SDK, версии, подпись, flavors<br/>✏️ app/src/main · debug · profile/AndroidManifest.xml<br/>✏️ app/src/main/kotlin/…/MainActivity.kt<br/>✏️ gradle.properties, gradle/wrapper/gradle-wrapper.properties<br/>⚙️ local.properties — пишет Flutter, не в git<br/>🔒 key.properties, *.jks — ключи подписи, не в git"]
+    I["<b>ios/</b><br/>✏️ Runner.xcworkspace — открывать его<br/>✏️ Runner.xcodeproj — targets, конфигурации, подпись<br/>✏️ Runner/Info.plist, AppDelegate.swift, Runner.entitlements<br/>✏️ Flutter/Debug.xcconfig, Release.xcconfig<br/>✏️ Podfile · Podfile.lock (в git)<br/>⚙️ Flutter/Generated.xcconfig — пишет Flutter, не в git<br/>⚙️ Pods/ — ставит CocoaPods, не в git"]
+    A ~~~ I

@@ -1,0 +1,16 @@
+flowchart LR
+    subgraph imp["❌ Императивный UI (Android View, UIKit)"]
+        direction TB
+        D1["Данные изменились"] --> A1["balanceView.text = …"]
+        D1 --> A2["payButton.isEnabled = …"]
+        D1 --> A3["errorView.visibility = …"]
+        D1 -.->|"забыли обновить"| A4["⚠️ errorView.text"]
+    end
+    subgraph dec["✅ Декларативный UI (Flutter)"]
+        direction TB
+        S["Новое состояние"] --> B["build(state)<br/>описывает весь экран"]
+        B --> F["Фреймворк сравнивает<br/>старое и новое дерево"]
+        F --> U["Обновляет только<br/>изменившееся"]
+    end
+    imp ~~~ dec
+    style A4 fill:#FFEBE6,stroke:#DE350B

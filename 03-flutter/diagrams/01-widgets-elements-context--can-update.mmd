@@ -1,0 +1,7 @@
+flowchart LR
+    NEW["Новый виджет<br/>на той же позиции"] --> Q{"тот же runtimeType<br/>и тот же key?"}
+    Q -->|"да"| UPD["Элемент ОСТАЁТСЯ<br/>element.update(newWidget)<br/>State сохраняется,<br/>вызывается didUpdateWidget"]
+    Q -->|"нет"| REPL["Старый элемент УДАЛЯЕТСЯ<br/>(dispose у State, всё поддерево)<br/>создаётся новый элемент<br/>(createState, initState…)"]
+    SAME["Тот же объект виджета<br/>(например, const)"] -.->|"identical — обновление<br/>вообще пропускается"| SKIP["Ничего не делаем"]
+    style UPD fill:#E3FCEF,stroke:#36B37E
+    style REPL fill:#FFEBE6,stroke:#DE350B

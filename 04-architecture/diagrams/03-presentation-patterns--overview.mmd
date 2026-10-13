@@ -1,0 +1,28 @@
+%%{init: {"flowchart": {"wrappingWidth": 300}}}%%
+flowchart LR
+    subgraph MVC["MVC"]
+        direction TB
+        V1["View"] -->|"ввод"| C1["Controller"]
+        C1 -->|"меняет"| M1["Model"]
+        M1 -.->|"уведомляет"| V1
+    end
+    subgraph MVP["MVP"]
+        direction TB
+        V2["View<br/>(интерфейс)"] -->|"onSubmitPressed()"| P2["Presenter"]
+        P2 -->|"showLoading(), showError()"| V2
+        P2 --> M2["Model"]
+    end
+    subgraph MVVM["MVVM"]
+        direction TB
+        V3["View"] -->|"submit()"| VM3["ViewModel<br/>(не знает о View)"]
+        VM3 -.->|"notifyListeners:<br/>View перечитывает свойства"| V3
+        VM3 --> M3["Model"]
+    end
+    subgraph BLOC["BLoC"]
+        direction TB
+        V4["View"] -->|"add(Event)"| B4["Bloc<br/>(не знает о View)"]
+        B4 -.->|"Stream&lt;State&gt;:<br/>полный снимок экрана"| V4
+        B4 --> M4["Model<br/>(UseCase)"]
+    end
+    MVC ~~~ MVP ~~~ MVVM ~~~ BLOC
+    style B4 fill:#E3FCEF,stroke:#36B37E

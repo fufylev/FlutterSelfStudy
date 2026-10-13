@@ -1,0 +1,13 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart LR
+    UC["UseCase<br/>(domain)"] -->|"Entity"| RI["«interface»<br/>AccountsRepository<br/>(domain)"]
+    IMPL["AccountsRepositoryImpl<br/>(data)<br/>кеш в памяти, политика,<br/>маппинг, перевод ошибок"] -.->|"реализует"| RI
+    IMPL -->|"DTO"| RDS["AccountsRemoteDataSource"]
+    IMPL -->|"DTO"| LDS["AccountsLocalDataSource"]
+    RDS --> API["AccountsApi<br/>network/ (retrofit)"]
+    API --> SRV[("Сервер")]
+    LDS --> DAO["DAO / таблицы drift"]
+    DAO --> DB[("SQLite")]
+    style RI fill:#E3FCEF,stroke:#36B37E
+    style UC fill:#E3FCEF,stroke:#36B37E
+    style IMPL fill:#DEEBFF,stroke:#0052CC

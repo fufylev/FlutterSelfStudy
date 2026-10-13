@@ -1,0 +1,9 @@
+flowchart TB
+    P["Родитель: Row шириной 400"] -->|"1. ограничения вниз:<br/>Icon — ширина 0…∞<br/>Expanded — ровно оставшиеся 376"| C1["Icon"]
+    P -->|"1. ограничения вниз"| C2["Expanded → Text"]
+    C1 -->|"2. размер вверх: 24×24"| P
+    C2 -->|"2. размер вверх: ширина 376<br/>(длинный текст обрезан …)"| P
+    P --> POS["3. родитель задаёт позицию:<br/>Icon в x=0, Text в x=24"]
+    BAD["Без Expanded Text получает ширину 0…∞,<br/>занимает 941 и не помещается →<br/>A RenderFlex overflowed by … pixels"]
+    style BAD fill:#FFEBE6,stroke:#DE350B
+    style POS fill:#E3FCEF,stroke:#36B37E

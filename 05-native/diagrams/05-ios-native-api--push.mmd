@@ -1,0 +1,15 @@
+sequenceDiagram
+    autonumber
+    participant B as Сервер банка
+    participant APNs as APNs (Apple)
+    participant N as Notification Service Extension
+    participant iOS as iOS
+    participant A as Приложение
+    B->>APNs: push: зашифрованный текст, mutable-content: 1
+    APNs->>iOS: доставка (приложение может быть закрыто)
+    iOS->>N: до показа: ~30 секунд на изменение
+    N->>N: расшифровать ключом из общего Keychain → «Списание 1 250 ₽»
+    N-->>iOS: показать уведомление
+    iOS->>A: нажатие → userNotificationCenter(didReceive:)
+    A->>A: link из userInfo → канал → Navigator /operation?id=42
+    Note over B,APNs: Сумма и реквизиты не проходят через Apple открытым текстом

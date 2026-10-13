@@ -1,0 +1,28 @@
+%%{init: {"flowchart": {"wrappingWidth": 300}}}%%
+flowchart TB
+    APP["<b>app</b><br/>main, Composition Root, роутер,<br/>реализация AppNavigator"]
+    subgraph F["Фичи — не зависят друг от друга"]
+        direction LR
+        ACC["accounts"]
+        TR["transfer"]
+        DEP["deposits"]
+    end
+    subgraph SH["Общие данные"]
+        direction LR
+        USER["user"]
+        ACCD["accounts_data<br/>(счета для выбора в переводе)"]
+    end
+    subgraph BASE["Основание"]
+        direction LR
+        CORE["core<br/>сеть, хранилище, Result,<br/>контракты навигации"]
+        UI["ui_kit"]
+        MK["module_kit<br/>точка входа модуля, DI, маршруты"]
+        UT["utils"]
+    end
+    APP --> F
+    F --> SH
+    F --> BASE
+    SH --> BASE
+    style F fill:#E3FCEF,stroke:#36B37E
+    style SH fill:#EAE6FF,stroke:#5243AA
+    style BASE fill:#DEEBFF,stroke:#0052CC

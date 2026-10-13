@@ -1,0 +1,17 @@
+flowchart LR
+    subgraph before["❌ До: один класс — три актора"]
+        direction TB
+        F1["👔 Финансисты"] --> D1["Deposit<br/>calculateInterest()<br/>toStatementLine()<br/>save()"]
+        P1["🎨 Продукт / UX"] --> D1
+        S1["🗄️ Команда хранения"] --> D1
+    end
+    subgraph after["✅ После: у каждого модуля один актор"]
+        direction TB
+        F2["👔 Финансисты"] --> IC["InterestCalculator"]
+        P2["🎨 Продукт / UX"] --> SF["StatementFormatter"]
+        S2["🗄️ Команда хранения"] --> DR["DepositRepository"]
+        IC --> DD["Deposit<br/>(только данные)"]
+        SF --> DD
+        DR --> DD
+    end
+    before ~~~ after

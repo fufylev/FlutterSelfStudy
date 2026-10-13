@@ -1,0 +1,18 @@
+%%{init: {"flowchart": {"wrappingWidth": 420}}}%%
+flowchart TB
+    subgraph A["Первый показ"]
+        direction LR
+        A1["Element.mount"] --> A2["widget.createRenderObject<br/>объект создаётся один раз"] --> A3["attachRenderObject<br/>вставка в дерево отрисовки,<br/>attach(PipelineOwner)"]
+    end
+    subgraph B["Новый виджет или setState выше по дереву"]
+        direction LR
+        B1["Element.update<br/>→ performRebuild"] --> B2["widget.updateRenderObject<br/>(не build!)"] --> B3["сеттеры свойств<br/>→ markNeedsLayout / markNeedsPaint"]
+    end
+    subgraph C["Удаление из дерева"]
+        direction LR
+        C1["deactivate<br/>→ detach"] --> C2["unmount<br/>→ dispose"]
+    end
+    A ~~~ B ~~~ C
+    style A fill:#E3FCEF,stroke:#36B37E
+    style B fill:#DEEBFF,stroke:#0052CC
+    style C fill:#FFEBE6,stroke:#DE350B

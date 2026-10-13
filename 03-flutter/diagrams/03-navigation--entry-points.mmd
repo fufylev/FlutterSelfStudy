@@ -1,0 +1,9 @@
+flowchart LR
+    BTN["Кнопка в приложении<br/>push(OperationRoute(operationId: '42'))"] --> R
+    DL["Deep link<br/>https://bank.example/operations/42"] --> F["deepLinkBuilder<br/>белый список ссылок"] --> R
+    PUSH["Нажатие на push<br/>data: {operationId: 42}"] --> NP["navigatePath('/operations/42')"] --> R
+    R["Маршрут /operations/:id"] --> G{"AuthGuard:<br/>вошёл?"}
+    G -->|"да"| SCR["Экран «Операция №42»<br/>сам загружает данные по id"]
+    G -->|"нет"| LOGIN["Экран входа"] -->|"redirectUntil:<br/>после входа продолжить"| SCR
+    style SCR fill:#E3FCEF,stroke:#36B37E
+    style G fill:#FFFAE6,stroke:#FF8B00

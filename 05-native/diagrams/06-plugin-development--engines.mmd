@@ -1,0 +1,14 @@
+%%{init: {"flowchart": {"wrappingWidth": 260}}}%%
+flowchart LR
+    subgraph P["Один процесс Android"]
+        S["companion object / static<br/>общий для всех движков:<br/>attached = 2"]
+        subgraph E1["FlutterEngine #1 (экран)"]
+            P1["DeviceSecurityPlugin<br/>экземпляр 215583376<br/>свой messenger, свой eventSink"]
+        end
+        subgraph E2["FlutterEngine #2 (фон, add-to-app)"]
+            P2["DeviceSecurityPlugin<br/>экземпляр 115662767<br/>свой messenger, свой eventSink"]
+        end
+        P1 -.-> S
+        P2 -.-> S
+    end
+    style S fill:#FFEBE6,stroke:#DE350B

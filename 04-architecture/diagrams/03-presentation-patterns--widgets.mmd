@@ -1,0 +1,9 @@
+%%{init: {"flowchart": {"wrappingWidth": 340}}}%%
+flowchart TB
+    BP["BlocProvider(create)<br/>создаёт и закрывает TransferBloc"] --> BL["BlocListener + listenWhen<br/>эффекты: snackbar, навигация<br/>(один раз на смену состояния)"]
+    BL --> COL["Column"]
+    COL --> TF["TextField<br/>onChanged → context.read().add(Event)"]
+    COL --> BS["BlocSelector<br/>«К списанию: …» — только при смене суммы"]
+    COL --> BB["BlocBuilder + buildWhen<br/>кнопка / индикатор — только при смене canSubmit и статуса"]
+    style BP fill:#DEEBFF,stroke:#0052CC
+    style BL fill:#FFF0B3,stroke:#FF991F

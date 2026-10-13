@@ -1,0 +1,13 @@
+%%{init: {"flowchart": {"wrappingWidth": 280}}}%%
+flowchart TD
+    SDK["Нативный SDK банка (антифрод, оплата)"]
+    SDK --> AND["Android: AAR"]
+    SDK --> IOS["iOS: xcframework<br/>ios-arm64 + ios-arm64_x86_64-simulator"]
+    AND --> X["libs/sdk.aar + implementation(files(...))<br/>✗ «Direct local .aar file dependencies are not supported»"]
+    AND --> M["Maven-репозиторий: внутренний сервер<br/>или папка maven/ в плагине<br/>implementation(#quot;ru.bank.sdk:antifraud:3.2.1#quot;)"]
+    IOS --> SP["SwiftPM: .binaryTarget(path:)"]
+    IOS --> CP["CocoaPods: s.vendored_frameworks"]
+    style X fill:#FFEBE6,stroke:#DE350B
+    style M fill:#E3FCEF,stroke:#36B37E
+    style SP fill:#E3FCEF,stroke:#36B37E
+    style CP fill:#E3FCEF,stroke:#36B37E

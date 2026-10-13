@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant M as 🖥️ Главный изолят (UI)
+    participant W as ⚙️ Воркер (statement-worker)
+    Note over M: ReceivePort: fromWorker, errors, exit
+    M->>W: Isolate.spawn(_workerMain, fromWorker.sendPort)
+    Note over W: создаёт свой ReceivePort fromMain
+    W->>M: fromMain.sendPort — рукопожатие
+    Note over M: handshake.complete → объект StatementWorker
+    M->>W: (id 0, json)
+    Note over M: UI свободен, кадры рисуются
+    Note over W: analyzeStatement(json) на другом ядре
+    W->>M: (id 0, отчёт, null)
+    Note over M: Completer №0 → complete(отчёт)
+    M->>W: (id 1, битый json)
+    W->>M: (id 1, null, 'FormatException…')
+    Note over M: Completer №1 → completeError
+    M->>W: null — команда остановки
+    Note over W: fromMain.close() → изолят завершается
+    W-->>M: onExit → ящик exit
+    Note over M: закрыть fromWorker и errors

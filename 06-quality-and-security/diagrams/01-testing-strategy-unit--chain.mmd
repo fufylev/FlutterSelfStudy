@@ -1,0 +1,35 @@
+%%{init: {"flowchart": {"wrappingWidth": 300}}}%%
+flowchart TB
+  subgraph S1["1 · AccountsApi"]
+    direction LR
+    a1["AccountsApi"] --> a2["MockClient<br/>(http/testing)"]
+  end
+  subgraph S2["2 · DataSource"]
+    direction LR
+    b1["RemoteDataSource"] --> b2["мок AccountsApi<br/>(mocktail)"]
+  end
+  subgraph S3["3 · Repository"]
+    direction LR
+    c1["RepositoryImpl"] --> c2["мок DataSource<br/>(mocktail)"]
+  end
+  subgraph S4["4 · UseCase"]
+    direction LR
+    d1["GetAccountsUseCase"] --> d2["фейк репозитория<br/>(вручную)"]
+  end
+  subgraph S5["5 · Bloc"]
+    direction LR
+    e1["AccountsBloc"] --> e2["мок UseCase<br/>(mocktail + bloc_test)"]
+  end
+  subgraph S6["6 · Цепочка с моком DataSource"]
+    direction LR
+    f1["Bloc"] --> f2["UseCase"] --> f3["Repository"] --> f4["мок DataSource<br/>(mocktail)"]
+  end
+  subgraph S7["7 · Вся цепочка с подставным HTTP"]
+    direction LR
+    g1["Bloc"] --> g2["UseCase"] --> g3["Repository"] --> g4["DataSource"] --> g5["Api"] --> g6["MockClient<br/>(http/testing)"]
+  end
+  S1 ~~~ S2 ~~~ S3 ~~~ S4 ~~~ S5 ~~~ S6 ~~~ S7
+  classDef real fill:#E3FCEF,stroke:#36B37E,color:#172B4D
+  classDef sub fill:#FFFAE6,stroke:#FF8B00,color:#172B4D
+  class a1,b1,c1,d1,e1,f1,f2,f3,g1,g2,g3,g4,g5 real
+  class a2,b2,c2,d2,e2,f4,g6 sub

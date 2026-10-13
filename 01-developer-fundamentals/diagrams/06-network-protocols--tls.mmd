@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant C as 📱 Приложение
+    participant S as 🏦 Сервер банка
+    Note over C,S: TCP-соединение уже установлено (SYN → SYN-ACK → ACK)
+    C->>S: ClientHello: версии TLS, алгоритмы, своя часть ключа
+    S->>C: ServerHello: своя часть ключа + сертификат + подпись
+    Note over C: Проверка сертификата:<br/>срок действия, домен,<br/>цепочка до доверенного корня
+    Note over C,S: Обе стороны вычисляют общий симметричный ключ
+    C->>S: Finished (уже зашифровано)
+    C->>S: 🔒 GET /v1/accounts
+    S->>C: 🔒 200 OK + данные

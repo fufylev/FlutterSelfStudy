@@ -1,0 +1,11 @@
+flowchart LR
+    SRC["card.dart<br/>@JsonSerializable()<br/>@Describe(mask: …)<br/>part 'card.g.dart';"] --> BR["build_runner<br/>компилирует генераторы<br/>и прогоняет исходники"]
+    BR --> G1["json_serializable"]
+    BR --> G2["describe_generator<br/>(наш)"]
+    G1 --> P1["card.json_serializable.g.part"]
+    G2 --> P2["card.describe.g.part"]
+    P1 --> CB["source_gen:<br/>combining_builder"]
+    P2 --> CB
+    CB --> OUT["card.g.dart<br/>part of 'card.dart';<br/>_$BankCardFromJson…<br/>_$BankCardDescribe…"]
+    style G2 fill:#E3FCEF,stroke:#36B37E
+    style OUT fill:#DEEBFF,stroke:#0052CC

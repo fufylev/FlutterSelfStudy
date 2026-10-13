@@ -1,0 +1,10 @@
+flowchart LR
+    R["1. Воспроизвести<br/>сценарий на слабом<br/>устройстве"] --> M["2. Измерить<br/>profile-режим,<br/>вкладка Performance"]
+    M --> F["3. Найти причину:<br/>UI или Raster?<br/>CPU Profiler,<br/>Track builds, Memory"]
+    F --> X["4. Исправить<br/>одну вещь"]
+    X --> M2["5. Измерить повторно<br/>в тех же условиях"]
+    M2 -->|"в бюджете"| D["Готово:<br/>закрепить тестом<br/>и мониторингом"]
+    M2 -->|"не помогло<br/>или стало хуже"| F
+    style M fill:#DEEBFF,stroke:#0052CC
+    style M2 fill:#DEEBFF,stroke:#0052CC
+    style D fill:#E3FCEF,stroke:#36B37E

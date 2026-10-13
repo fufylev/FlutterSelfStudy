@@ -1,0 +1,17 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart TB
+    G["<b>Глобальный контейнер</b><br/>HttpClient, БД, логгер,<br/>публичные интерфейсы модулей (AccountsRepository)"]
+    subgraph MA["Модуль «Счета»"]
+        LA["Контейнер модуля<br/>создан: открыт экран «Счета»"]
+    end
+    subgraph MB["Модуль «Перевод»"]
+        LB["Контейнер модуля<br/>открыто экранов: 2"]
+    end
+    subgraph MC["Модуль «Вклады»"]
+        LC["Контейнер модуля<br/>не создан: экраны закрыты"]
+    end
+    LA -->|"get() общих зависимостей"| G
+    LB -->|"get() общих зависимостей"| G
+    LC -.->|"появится при открытии<br/>первого экрана"| G
+    style G fill:#DEEBFF,stroke:#0052CC
+    style LC fill:#F4F5F7,stroke:#7A869A,stroke-dasharray: 5 5

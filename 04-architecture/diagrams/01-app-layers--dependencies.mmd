@@ -1,0 +1,21 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart LR
+    subgraph P["Presentation"]
+        CUBIT["AccountsCubit"]
+    end
+    subgraph D["Domain — ни от кого не зависит"]
+        UC["GetAccountsUseCase"]
+        RI["«interface»<br/>AccountsRepository"]
+        E["Account (Entity)"]
+        UC --> RI
+    end
+    subgraph DA["Data"]
+        IMPL["AccountsRepositoryImpl"]
+        DS["AccountsRemoteDataSource"]
+        DTO["AccountDto"]
+        IMPL --> DS
+    end
+    CUBIT -->|"вызывает"| UC
+    IMPL -.->|"реализует (инверсия зависимостей)"| RI
+    IMPL -->|"возвращает"| E
+    style D fill:#E3FCEF,stroke:#36B37E

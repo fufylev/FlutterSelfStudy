@@ -1,0 +1,16 @@
+sequenceDiagram
+    autonumber
+    participant D as Dart: экран входа
+    participant K as Kotlin: SmsConsentChannel
+    participant G as Google Play services
+    participant U as Пользователь
+    participant API as Сервер банка
+    D->>K: waitForCode()
+    K->>G: startSmsUserConsent(sender) + регистрация BroadcastReceiver
+    D->>API: запросить код
+    API-->>G: SMS «Код для входа: 482913»
+    G-->>K: SMS_RETRIEVED_ACTION + consentIntent
+    K->>U: consent.launch(consentIntent) — диалог «Разрешить прочитать сообщение?»
+    U-->>K: Разрешить → Activity Result с текстом SMS
+    K->>K: Regex находит код, отписка от рассылки
+    K-->>D: '482913' (null — отказ или 5 минут прошло)

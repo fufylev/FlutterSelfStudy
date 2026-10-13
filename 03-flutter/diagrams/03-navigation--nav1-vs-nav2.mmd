@@ -1,0 +1,14 @@
+flowchart LR
+    subgraph n1["Navigator 1.0 — императивно"]
+        direction TB
+        B1["Кнопка"] -->|"push(экран)"| S1["Стек: Счета → Операция"]
+        L1["Deep link"] -->|"pushRoute: только<br/>добавить сверху"| S1
+    end
+    subgraph n2["Navigator 2.0 — декларативно"]
+        direction TB
+        L2["Адрес от платформы<br/>/operations/42"] --> P2["RouteInformationParser<br/>адрес → конфигурация"]
+        ST["Состояние приложения<br/>(вошёл ли пользователь…)"] --> D2
+        P2 --> D2["RouterDelegate<br/>конфигурация → список страниц"]
+        D2 --> N2["Navigator(pages: [Счета, Операция])<br/>стек заменяется целиком"]
+    end
+    n1 ~~~ n2

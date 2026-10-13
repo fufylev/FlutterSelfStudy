@@ -1,0 +1,17 @@
+%%{init: {"flowchart": {"wrappingWidth": 330}}}%%
+flowchart TD
+    D["Dart: Launcher.openUri(uri, package)"] -->|MethodChannel| K["Kotlin: Intent(ACTION_VIEW, uri)"]
+    K --> Q{"Указан пакет или компонент?"}
+    Q -->|"Да: setPackage / ComponentName"| E["Явный: только это приложение"]
+    Q -->|Нет| I["Неявный: система ищет intent-filter<br/>по action + data + category"]
+    E --> V{"Пакет виден приложению?<br/>Android 11+: объявлен в &lt;queries&gt;"}
+    I --> V
+    V -->|Нет| X["Не найден: ActivityNotFoundException,<br/>resolveActivity = null"]
+    V -->|Да| N{"Сколько исполнителей?"}
+    N -->|0| X
+    N -->|1 или выбран по умолчанию| O["Открывается экран другого приложения"]
+    N -->|Несколько| C["Окно выбора приложения"]
+    C --> O
+    X --> R["result.success(false) → в Dart запасной вариант:<br/>сайт, магазин, сообщение"]
+    style X fill:#FFEBE6,stroke:#DE350B
+    style O fill:#E3FCEF,stroke:#36B37E

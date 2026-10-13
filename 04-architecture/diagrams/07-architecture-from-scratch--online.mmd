@@ -1,0 +1,25 @@
+sequenceDiagram
+    actor U as Пользователь
+    participant W as Экран
+    participant B as TasksBloc
+    participant UC as AddTaskUseCase
+    participant R as TasksRepositoryImpl
+    participant DS as RemoteDataSource
+    participant API as TasksApi + HTTP-клиент
+    participant S as Сервер
+    U->>W: «Купить молоко», «Добавить»
+    W->>B: add(TaskAddRequested)
+    B-->>W: status = adding
+    B->>UC: call(text)
+    Note over UC: trim, не пустое, ≤ 100 символов
+    UC->>R: addTask(title)
+    R->>DS: createTask(CreateTaskRequestDto)
+    DS->>API: createTask({title})
+    API->>S: POST /v1/tasks (+ токен)
+    S-->>API: 201 JSON
+    API-->>DS: Map
+    DS-->>R: TaskDto
+    R-->>UC: Task (toEntity)
+    UC-->>B: Success(task)
+    B-->>W: status = ready, tasks + task
+    W-->>U: задача в списке

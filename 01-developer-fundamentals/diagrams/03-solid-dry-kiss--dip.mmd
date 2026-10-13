@@ -1,0 +1,12 @@
+flowchart TB
+    subgraph before["❌ Без инверсии"]
+        direction TB
+        UC1["TransferUseCase<br/>(domain)"] -->|"зависит от"| HC1["HttpTransferClient<br/>(детали)"]
+    end
+    subgraph after["✅ С инверсией"]
+        direction TB
+        UC2["TransferUseCase<br/>(domain)"] -->|"зависит от"| TR["«interface»<br/>TransferRepository<br/>(объявлен в domain)"]
+        HR["HttpTransferRepository<br/>(data)"] -.->|"реализует"| TR
+        HR -->|"использует"| HC2["HttpTransferClient<br/>(детали)"]
+    end
+    before ~~~ after

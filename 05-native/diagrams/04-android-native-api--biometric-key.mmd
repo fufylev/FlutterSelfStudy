@@ -1,0 +1,19 @@
+sequenceDiagram
+    autonumber
+    participant D as Dart
+    participant K as Kotlin: SecurityChannel
+    participant KS as Android Keystore (TEE / StrongBox)
+    participant B as BiometricPrompt
+    D->>K: unlockWithBiometric()
+    K->>KS: Cipher.init(DECRYPT, biometric_key)
+    alt Отпечатки изменились
+        KS-->>K: KeyPermanentlyInvalidatedException
+        K-->>D: PlatformException(KEY_INVALIDATED) → вход по паролю и заново включить биометрию
+    else Ключ действителен
+        K->>B: authenticate(CryptoObject(cipher))
+        B->>KS: палец подошёл → разрешить одну операцию с этим ключом
+        B-->>K: onAuthenticationSucceeded(cryptoObject)
+        K->>K: cipher.doFinal(зашифрованный токен)
+        K-->>D: токен
+    end
+    Note over K,KS: Без отпечатка Keystore не выполнит doFinal — подменить «успех» в коде не поможет

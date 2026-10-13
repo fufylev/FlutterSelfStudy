@@ -1,0 +1,25 @@
+flowchart TB
+    subgraph app["Прикладной уровень — смысл обмена"]
+        direction LR
+        REST["REST<br/>(HTTP + JSON)"]
+        WS["WebSocket"]
+        GRPC["gRPC<br/>(HTTP/2 + Protobuf)"]
+        H3["HTTP/3"]
+    end
+    TLS["TLS — шифрование и проверка сервера<br/>(HTTPS, wss://)"]
+    subgraph transport["Транспортный уровень — доставка"]
+        direction LR
+        TCP["TCP<br/>надёжно, по порядку"]
+        UDP["UDP<br/>быстро, без гарантий"]
+        QUIC["QUIC<br/>(+ встроенный TLS 1.3)"]
+    end
+    IP["IP — доставка пакетов между устройствами"]
+
+    REST --> TLS
+    WS --> TLS
+    GRPC --> TLS
+    TLS --> TCP
+    H3 --> QUIC
+    QUIC --> UDP
+    TCP --> IP
+    UDP --> IP

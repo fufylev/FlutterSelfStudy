@@ -1,0 +1,13 @@
+flowchart LR
+    Client["Экран курсов<br/>(клиент)"] -->|"rate('USD')"| L
+    subgraph L["LoggingRatesRepository"]
+        direction LR
+        L1["пишет лог"] --> C
+        subgraph C["CachedRatesRepository"]
+            direction LR
+            C1{"есть свежий<br/>курс в кеше?"} -->|"нет"| H["HttpRatesRepository<br/>запрос к API"]
+            C1 -->|"да"| R["вернуть из кеша"]
+        end
+    end
+    note["Все три класса реализуют<br/>один интерфейс RatesRepository"]
+    style note fill:#FFFAE6,stroke:#FF8B00

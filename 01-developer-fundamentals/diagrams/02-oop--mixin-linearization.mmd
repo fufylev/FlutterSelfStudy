@@ -1,0 +1,6 @@
+flowchart LR
+    C["C<br/>(сам класс)"] -->|super| B["Base + A + B<br/>(миксин B)"]
+    B -->|super| A["Base + A<br/>(миксин A)"]
+    A -->|super| Base["Base"]
+    Base -->|super| Obj["Object"]
+    call(["C().hello()"]) -.->|"поиск метода<br/>справа налево"| C

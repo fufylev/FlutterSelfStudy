@@ -1,0 +1,14 @@
+sequenceDiagram
+    autonumber
+    participant D as Dart (изолят)
+    participant C as C-код
+    participant T as Поток, созданный в C
+    D->>C: scan_sync(isolateLocal.nativeFunction)
+    C->>D: cb(25), cb(50)… синхронно в том же потоке
+    C-->>D: возврат из scan_sync
+    D->>C: scan_in_background(listener.nativeFunction)
+    C->>T: pthread_create
+    C-->>D: сразу возврат
+    T--)D: cb(25) → в очередь событий изолята
+    T--)D: cb(100) → close() колбэка
+    Note over D,T: isolateLocal из чужого потока —<br/>«Cannot invoke native callback outside an isolate», процесс падает (код 134)

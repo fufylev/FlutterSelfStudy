@@ -1,0 +1,13 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart TB
+    START["getAccounts(forceRefresh)"] --> Q1{"forceRefresh = false<br/>и есть кеш в памяти?"}
+    Q1 -->|"да"| MEM["вернуть кеш из памяти"]
+    Q1 -->|"нет"| Q2{"запрос уже выполняется?"}
+    Q2 -->|"да"| WAIT["ждать тот же Future"]
+    Q2 -->|"нет"| NET["remote.fetchAccounts()"]
+    NET -->|"успех"| SAVE["local.saveAccounts → подписчики watch<br/>обновить кеш в памяти<br/>вернуть Entity"]
+    NET -->|"ApiException"| Q3{"в local есть данные?"}
+    Q3 -->|"да"| LOCAL["вернуть сохранённые"]
+    Q3 -->|"нет"| ERR["бросить ошибку domain:<br/>NoConnection / ServiceUnavailable"]
+    style SAVE fill:#E3FCEF,stroke:#36B37E
+    style ERR fill:#FFEBE6,stroke:#DE350B

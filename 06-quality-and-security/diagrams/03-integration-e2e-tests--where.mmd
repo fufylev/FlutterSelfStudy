@@ -1,0 +1,25 @@
+%%{init: {"flowchart": {"wrappingWidth": 300}}}%%
+flowchart LR
+  subgraph PC["Компьютер или агент CI"]
+    direction TB
+    W["<b>Widget-тест</b><br/>flutter test<br/>тестовое окружение без устройства,<br/>виртуальное время"]
+    APM["<b>Appium / Maestro</b><br/>сценарий снаружи:<br/>ищет элементы в дереве доступности"]
+  end
+  subgraph DEV["Эмулятор, симулятор или телефон"]
+    direction TB
+    subgraph APP["Процесс приложения"]
+      IT["<b>integration_test</b><br/>Dart-тест внутри приложения:<br/>настоящие время, шрифты, каналы, сеть"]
+    end
+    NAT["Нативный тест-раннер<br/>Android Instrumentation / XCUITest"]
+    OS["Системный UI: диалоги разрешений,<br/>шторка уведомлений, «Домой»"]
+  end
+  PAT["<b>Patrol</b> = integration_test<br/>+ нативный раннер"] -.-> IT
+  PAT -.-> NAT
+  NAT --> OS
+  APM -- "UiAutomator2 / XCUITest" --> DEV
+  classDef host fill:#DEEBFF,stroke:#0052CC,color:#172B4D
+  classDef dev fill:#E3FCEF,stroke:#36B37E,color:#172B4D
+  classDef sys fill:#FFFAE6,stroke:#FF8B00,color:#172B4D
+  class W,APM host
+  class IT,NAT dev
+  class OS sys

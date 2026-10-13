@@ -1,0 +1,24 @@
+classDiagram
+    direction BT
+    class PaymentMethod {
+        <<abstract>>
+        +String title
+        +pay(kopecks) Future~bool~
+        +receipt(kopecks) String
+    }
+    class Loggable {
+        <<mixin>>
+        +log(message)
+    }
+    class Comparable~T~ {
+        <<interface>>
+        +compareTo(other) int
+    }
+    class CardPayment {
+        +String title
+        +pay(kopecks) Future~bool~
+        +compareTo(other) int
+    }
+    CardPayment --|> PaymentMethod : extends — наследует реализацию
+    CardPayment ..|> Comparable : implements — только контракт
+    CardPayment ..> Loggable : with — подмешивает поведение

@@ -1,0 +1,12 @@
+%%{init: {"flowchart": {"wrappingWidth": 360}}}%%
+flowchart LR
+    SRC["Dart-исходники<br/>lib/*.dart + пакеты"] -->|"frontend_server"| K["Dart Kernel<br/>app.dill — промежуточный код"]
+    K -->|"debug"| KB["kernel_blob.bin<br/>+ снимки VM в assets"]
+    KB --> VM["Dart VM на устройстве<br/>JIT-компиляция во время работы<br/>✅ hot reload, отладка"]
+    K -->|"profile / release<br/>gen_snapshot под ABI"| AOT["Машинный код"]
+    AOT -->|"Android"| SO["ELF-библиотека<br/>lib/&lt;abi&gt;/libapp.so"]
+    AOT -->|"iOS: ассемблер → clang"| FW["App.framework"]
+    style K fill:#FFF0B3,stroke:#FF991F
+    style VM fill:#DEEBFF,stroke:#0052CC
+    style SO fill:#E3FCEF,stroke:#36B37E
+    style FW fill:#E3FCEF,stroke:#36B37E

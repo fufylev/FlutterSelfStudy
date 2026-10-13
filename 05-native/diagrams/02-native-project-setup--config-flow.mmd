@@ -1,0 +1,11 @@
+%%{init: {"flowchart": {"wrappingWidth": 300}}}%%
+flowchart LR
+    P["pubspec.yaml<br/>version: 1.4.2+57"]
+    F["flutter build … --flavor dev"]
+    D["--dart-define-from-file=config/dev.json<br/>API_URL, ENV"]
+    P --> AV["Android: versionName 1.4.2-dev,<br/>versionCode 57"]
+    P --> IV["iOS: Generated.xcconfig →<br/>CFBundleShortVersionString 1.4.2,<br/>CFBundleVersion 57"]
+    F --> AF["Android: productFlavor dev →<br/>ru.bank.natcheck.dev, «Банк Dev»"]
+    F --> IF["iOS: схема dev → Release-dev →<br/>свой Bundle Identifier и имя"]
+    D --> DC["Dart: String.fromEnvironment('API_URL')<br/>константа в libapp.so / App.framework"]
+    style DC fill:#E3FCEF,stroke:#36B37E
